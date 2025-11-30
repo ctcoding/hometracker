@@ -24,12 +24,35 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Remove ALL focus outlines globally - Tailwind focus:ring handles it */
-*,
-*:focus,
+/* CRITICAL: Remove ALL browser default outlines */
+* {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+*:focus {
+  outline: none !important;
+}
+
 *:focus-visible {
   outline: none !important;
-  -webkit-tap-highlight-color: transparent;
+}
+
+/* Inputs specifically */
+input,
+textarea,
+select,
+button {
+  outline: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
 }
 
 #root {
