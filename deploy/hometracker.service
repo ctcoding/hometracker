@@ -6,10 +6,10 @@ After=network.target
 Type=simple
 User=hometracker
 Group=hometracker
-WorkingDirectory=/opt/hometracker/app/server
+WorkingDirectory=/var/www/hometracker/server
 Environment=NODE_ENV=production
 Environment=PORT=3331
-Environment=DB_PATH=/opt/hometracker/data/haustracker.db
+Environment=DB_PATH=/var/www/hometracker/data/haustracker.db
 ExecStart=/usr/bin/node dist/index.js
 Restart=on-failure
 RestartSec=10

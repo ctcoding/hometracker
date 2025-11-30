@@ -10,18 +10,18 @@
 ## 1. User erstellen (ohne Passwort)
 
 ```bash
-# User erstellen
-sudo useradd -r -m -d /opt/hometracker -s /bin/bash hometracker
+# User erstellen (ohne Home-Verzeichnis, da wir /var/www nutzen)
+sudo useradd -r -s /bin/bash hometracker
 
 # Verzeichnisstruktur anlegen
-sudo mkdir -p /opt/hometracker/{app,data}
-sudo chown -R hometracker:hometracker /opt/hometracker
+sudo mkdir -p /var/www/hometracker/data
+sudo chown -R hometracker:hometracker /var/www/hometracker
 ```
 
 ## 2. Repository klonen
 
 ```bash
-sudo -u hometracker git clone https://github.com/ctcoding/hometracker.git /opt/hometracker/app
+sudo -u hometracker git clone https://github.com/ctcoding/hometracker.git /var/www/hometracker
 ```
 
 ## 3. Datenbank hochladen
@@ -32,21 +32,21 @@ Die SQLite-Datenbank muss separat hochgeladen werden (nicht im Git):
 scp /Users/christian/Apps/haustracker/server/data/haustracker.db user@vps:/tmp/
 
 # Auf dem VPS:
-sudo mv /tmp/haustracker.db /opt/hometracker/data/
-sudo chown hometracker:hometracker /opt/hometracker/data/haustracker.db
+sudo mv /tmp/haustracker.db /var/www/hometracker/data/
+sudo chown hometracker:hometracker /var/www/hometracker/data/haustracker.db
 ```
 
 ## 4. Dependencies installieren & Build
 
 ```bash
-cd /opt/hometracker/app
+cd /var/www/hometracker
 
 # Frontend build
 sudo -u hometracker npm install
 sudo -u hometracker npm run build
 
 # Backend build
-cd /opt/hometracker/app/server
+cd /var/www/hometracker/server
 sudo -u hometracker npm install
 sudo -u hometracker npm run build
 ```
@@ -55,7 +55,7 @@ sudo -u hometracker npm run build
 
 ```bash
 # Service-Datei kopieren
-sudo cp /opt/hometracker/app/deploy/hometracker.service /etc/systemd/system/
+sudo cp /var/www/hometracker/deploy/hometracker.service /etc/systemd/system/
 
 # Service aktivieren und starten
 sudo systemctl daemon-reload
@@ -70,7 +70,7 @@ sudo systemctl status hometracker
 
 ```bash
 # Config kopieren (erstmal ohne SSL)
-sudo cp /opt/hometracker/app/deploy/nginx-hometracker.conf /etc/nginx/sites-available/hometracker
+sudo cp /var/www/hometracker/deploy/nginx-hometracker.conf /etc/nginx/sites-available/hometracker
 
 # Erstmal nur HTTP aktivieren (für Certbot):
 # Editiere /etc/nginx/sites-available/hometracker und kommentiere den SSL-Block aus
@@ -119,7 +119,7 @@ sudo journalctl -u hometracker -f
 sudo systemctl restart hometracker
 
 # App aktualisieren
-cd /opt/hometracker/app
+cd /var/www/hometracker
 sudo -u hometracker git pull
 sudo -u hometracker npm install
 sudo -u hometracker npm run build
@@ -133,10 +133,10 @@ sudo systemctl restart hometracker
 
 ```bash
 # Backup erstellen (auf VPS)
-sudo -u hometracker cp /opt/hometracker/data/haustracker.db /opt/hometracker/data/haustracker.db.backup-$(date +%Y%m%d)
+sudo -u hometracker cp /var/www/hometracker/data/haustracker.db /var/www/hometracker/data/haustracker.db.backup-$(date +%Y%m%d)
 
 # Backup herunterladen (auf lokalem Mac)
-scp user@vps:/opt/hometracker/data/haustracker.db ./backup-haustracker.db
+scp user@vps:/var/www/hometracker/data/haustracker.db ./backup-haustracker.db
 ```
 
 ---
@@ -146,15 +146,16 @@ scp user@vps:/opt/hometracker/data/haustracker.db ./backup-haustracker.db
 Kopiere diesen Prompt in Claude Code auf dem VPS:
 
 ```
-Ich möchte die Hometracker-App deployen. Das Repository ist bereits geklont unter /opt/hometracker/app.
+Ich möchte die Hometracker-App deployen. Das Repository ist bereits geklont unter /var/www/hometracker.
 
 Bitte führe folgende Schritte aus:
-1. Erstelle den User "hometracker" ohne Passwort
-2. Installiere die Dependencies und erstelle den Production Build (Frontend + Backend)
-3. Richte den Systemd-Service ein unter /etc/systemd/system/hometracker.service
-4. Konfiguriere Nginx für hometracker.tiehs.de mit SSL via Certbot
-5. Starte alle Services und verifiziere, dass alles läuft
+1. Erstelle den User "hometracker" ohne Passwort (sudo useradd -r -s /bin/bash hometracker)
+2. Setze die Berechtigungen: sudo chown -R hometracker:hometracker /var/www/hometracker
+3. Installiere die Dependencies und erstelle den Production Build (Frontend + Backend)
+4. Richte den Systemd-Service ein: sudo cp /var/www/hometracker/deploy/hometracker.service /etc/systemd/system/
+5. Konfiguriere Nginx für hometracker.tiehs.de mit SSL via Certbot
+6. Starte alle Services und verifiziere, dass alles läuft
 
-Die SQLite-Datenbank liegt unter /opt/hometracker/data/haustracker.db (wurde separat hochgeladen).
+Die SQLite-Datenbank liegt unter /var/www/hometracker/data/haustracker.db (wurde separat hochgeladen).
 Der Backend-Server soll auf Port 3331 laufen.
 ```
