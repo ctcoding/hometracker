@@ -1,5 +1,11 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import { initializeAuth, requireAuth } from './auth.js';
+import authRoutes from './auth-routes.js';
 import cors from 'cors';
+
+// Initialize auth system
+initializeAuth();
 import db from './db.js';
 import { elwaScheduler } from './elwa-scheduler.js';
 
@@ -8,6 +14,12 @@ const PORT = 3331;
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+// Auth routes (public)
+app.use('/api/auth', authRoutes);
+
+// Protect all other API routes
+app.use('/api', requireAuth);
 
 // ===== READINGS =====
 app.get('/api/readings', (req, res) => {
