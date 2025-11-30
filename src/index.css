@@ -24,20 +24,12 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Remove focus outline for non-interactive elements */
-* {
-  outline: none;
+/* Remove ALL focus outlines globally - Tailwind focus:ring handles it */
+*,
+*:focus,
+*:focus-visible {
+  outline: none !important;
   -webkit-tap-highlight-color: transparent;
-}
-
-/* Keep focus visible for interactive elements (accessibility) */
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid rgb(var(--color-primary));
-  outline-offset: 2px;
 }
 
 #root {

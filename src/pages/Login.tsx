@@ -53,8 +53,8 @@ export default function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              placeholder="christian@tiehs.de"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+              placeholder="user@example.com"
               required
               autoFocus
             />
@@ -68,7 +68,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               placeholder="••••••••"
               required
             />
@@ -80,7 +80,7 @@ export default function Login() {
               id="remember"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+              className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500 outline-none"
             />
             <label htmlFor="remember" className="ml-2 text-sm text-gray-700">
               Eingeloggt bleiben
