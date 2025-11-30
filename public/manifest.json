@@ -1,0 +1,18 @@
+{
+  "name": "HausTracker",
+  "short_name": "HausTracker",
+  "description": "Wärmezähler-Verwaltung",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f97316",
+  "theme_color": "#f97316",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+[Unit]
+Description=Hometracker Backend API
+After=network.target
+
+[Service]
+Type=simple
+User=hometracker
+Group=hometracker
+WorkingDirectory=/opt/hometracker/app/server
+Environment=NODE_ENV=production
+Environment=PORT=3331
+Environment=DB_PATH=/opt/hometracker/data/haustracker.db
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=hometracker
+
+[Install]
+WantedBy=multi-user.target
