@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PlusCircle, Wallet, Calendar, RefreshCw, Flame, TrendingUp, TrendingDown, BarChart3, Zap, Thermometer } from 'lucide-react';
+import { PlusCircle, Wallet, Calendar, RefreshCw, Flame, TrendingUp, TrendingDown, Zap, Thermometer } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { api } from '../lib/api';
 import type { BalanceData } from '../lib/api';
@@ -74,9 +74,9 @@ export default function Dashboard() {
         });
         const values = await response.json();
         setElwa({
-          power: values[settings.elwaPowerSensorEntity] ?? null,
-          tempBottom: values[settings.elwaWaterTempBottomEntity] ?? null,
-          tempTop: values[settings.elwaWaterTempTopEntity] ?? null,
+          power: (settings.elwaPowerSensorEntity && values[settings.elwaPowerSensorEntity]) ?? null,
+          tempBottom: (settings.elwaWaterTempBottomEntity && values[settings.elwaWaterTempBottomEntity]) ?? null,
+          tempTop: (settings.elwaWaterTempTopEntity && values[settings.elwaWaterTempTopEntity]) ?? null,
         });
       }
     } catch (err) {

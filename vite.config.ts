@@ -11,7 +11,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: false, // PWA im Dev-Mode deaktiviert für Live-Reload
+        enabled: false,
       },
       includeAssets: ['favicon.ico', 'icon.svg'],
       manifest: {
@@ -71,10 +71,10 @@ export default defineConfig({
   },
   server: {
     port: 5273,
-    https: {
+    https: fs.existsSync(path.resolve(__dirname, '.cert/localhost+4-key.pem')) ? {
       key: fs.readFileSync(path.resolve(__dirname, '.cert/localhost+4-key.pem')),
       cert: fs.readFileSync(path.resolve(__dirname, '.cert/localhost+4.pem')),
-    },
+    } : undefined,
     proxy: {
       '/api': {
         target: 'http://localhost:3331',

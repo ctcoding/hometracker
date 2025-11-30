@@ -17,6 +17,9 @@ export interface Reading {
   outdoorTempNight?: number;
   indoorTemp?: number;
   weather?: 'sunny' | 'cloudy' | 'mixed' | 'unknown';
+  outdoorTempCurrent?: number;
+  outdoorTempNightAvg?: number;
+  weatherCondition?: string;
 
   // Meta-Informationen
   source: 'ocr' | 'manual' | 'import';
@@ -100,6 +103,9 @@ export interface Settings {
   elwaPowerSensorEntity?: string;       // Leistungsaufnahme in W
   elwaWaterTempBottomEntity?: string;   // Wassertemperatur unten
   elwaWaterTempTopEntity?: string;      // Wassertemperatur oben
+  elwaCloudApiKey?: string;
+  elwaSerialNumber?: string;
+  homeAssistantApiToken?: string;
 
   // Erinnerungen
   reminderIntervalDays: number;

@@ -236,9 +236,9 @@ export default function Fernwaerme() {
     : 0;
 
   const forecastResult = generateForecast();
-  const forecastData = forecastResult.forecast || [];
-  const trendFactor = forecastResult.trendFactor || 1;
-  const projectedBalance = forecastResult.projectedBalance;
+  const forecastData = Array.isArray(forecastResult) ? [] : (forecastResult.forecast || []);
+  const trendFactor = Array.isArray(forecastResult) ? 1 : (forecastResult.trendFactor || 1);
+  const projectedBalance = Array.isArray(forecastResult) ? null : forecastResult.projectedBalance;
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">

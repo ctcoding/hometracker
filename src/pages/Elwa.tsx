@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RefreshCw, CheckCircle, AlertCircle, Droplets, Sun, Download, History } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { formatNumber, formatDate } from '../lib/utils';
+import { formatNumber } from '../lib/utils';
 
 interface ElwaReading {
   id: number;

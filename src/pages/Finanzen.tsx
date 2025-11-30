@@ -164,7 +164,7 @@ export default function Finanzen() {
   };
 
   const forecastResult = generateForecast();
-  const forecastData = forecastResult.forecast || [];
+  const forecastData = Array.isArray(forecastResult) ? [] : (forecastResult.forecast || []);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
