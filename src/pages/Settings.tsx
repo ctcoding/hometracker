@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Save, Bell, Home, DollarSign, Euro, ChevronRight, BarChart3, Download, FileJson, FileSpreadsheet, CheckCircle, XCircle, Loader2, Palette } from 'lucide-react';
+import { Save, Bell, Home, DollarSign, Euro, ChevronRight, BarChart3, Download, FileJson, FileSpreadsheet, CheckCircle, XCircle, Loader2, Palette, User } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { api } from '../lib/api';
 import type { Settings as SettingsType } from '../types';
@@ -209,6 +209,20 @@ export default function Settings() {
           </Link>
 
         </section>
+          <Link
+            to="/user-settings"
+            className="bg-white rounded-lg shadow p-4 flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3">
+              <User className="text-orange-500" size={24} />
+              <div>
+                <div className="font-semibold text-gray-900">Benutzerverwaltung</div>
+                <div className="text-sm text-gray-500">Profil, Passwort, Abmelden</div>
+              </div>
+            </div>
+            <ChevronRight className="text-gray-400" size={20} />
+          </Link>
+
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Home Assistant */}
