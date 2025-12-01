@@ -569,6 +569,26 @@ export default function Settings() {
             </button>
           </section>
 
+          {/* App-Version */}
+          <section className="bg-white rounded-lg shadow p-4">
+            <div className="text-sm text-gray-700">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-medium">App-Version</span>
+                <span className="text-gray-600 font-mono">v{__BUILD_INFO__.commitHash}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span>Letztes Deployment</span>
+                <span>{new Date(__BUILD_INFO__.buildDate).toLocaleString('de-DE', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}</span>
+              </div>
+            </div>
+          </section>
+
           {/* Save Button */}
           <button
             type="submit"

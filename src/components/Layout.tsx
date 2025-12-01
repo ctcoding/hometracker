@@ -69,10 +69,6 @@ export default function Layout({ children }: LayoutProps) {
               );
             })}
           </div>
-          {/* Version Info */}
-          <div className="text-center text-[10px] text-gray-400 py-1 mt-1">
-            v{__BUILD_INFO__.commitHash} • {new Date(__BUILD_INFO__.buildDate).toLocaleDateString('de-DE')}
-          </div>
         </nav>
       )}
     </div>
