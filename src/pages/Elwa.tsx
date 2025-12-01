@@ -59,14 +59,21 @@ export default function Elwa() {
     setError(null);
     try {
       const [monthlyData, statusData] = await Promise.all([
-        fetch('/api/elwa/monthly').then(r => r.json()),
-        fetch('/api/elwa/status').then(r => r.json()).catch(() => null),
+        fetch('/api/elwa/monthly').then(r => {
+          if (!r.ok) throw new Error('Unauthorized');
+          return r.json();
+        }),
+        fetch('/api/elwa/status').then(r => {
+          if (!r.ok) return null;
+          return r.json();
+        }).catch(() => null),
       ]);
-      setReadings(monthlyData);
+      setReadings(monthlyData || []);
       setApiStatus(statusData);
     } catch (err) {
       console.error('Failed to load ELWA data:', err);
-      setError('Daten konnten nicht geladen werden');
+      setError('Daten konnten nicht geladen werden. Bitte neu einloggen.');
+      setReadings([]);
     } finally {
       setLoading(false);
     }
