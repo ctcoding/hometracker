@@ -12,10 +12,16 @@ SERVER_DIR="$PROJECT_DIR/server"
 
 echo -e "${BLUE}Starting deployment...${NC}"
 
-# 1. Git pull
+# 1. Git pull mit HTTPS (kein Auth nötig für öffentliche Repos)
 echo -e "${BLUE}Pulling latest changes from GitHub...${NC}"
 cd "$PROJECT_DIR"
+
+# Temporär auf HTTPS umstellen für den Pull
+CURRENT_URL=$(sudo -u hometracker git remote get-url origin)
+sudo -u hometracker git remote set-url origin https://github.com/ctcoding/hometracker.git
 sudo -u hometracker git pull origin main
+# Zurück zur ursprünglichen URL
+sudo -u hometracker git remote set-url origin "$CURRENT_URL"
 
 # 2. Install frontend dependencies if package.json changed
 if sudo -u hometracker git diff --name-only HEAD@{1} HEAD | grep -q "package.json"; then
