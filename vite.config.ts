@@ -3,9 +3,29 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 import fs from 'fs'
+import { execSync } from 'child_process'
+
+// Get build info
+const getGitCommitHash = () => {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch {
+    return 'unknown'
+  }
+}
+
+const getBuildDate = () => {
+  return new Date().toISOString()
+}
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: {
+    '__BUILD_INFO__': JSON.stringify({
+      commitHash: getGitCommitHash(),
+      buildDate: getBuildDate(),
+    }),
+  },
   plugins: [
     react(),
     VitePWA({
