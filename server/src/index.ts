@@ -415,6 +415,7 @@ app.get('/api/balance', (req, res) => {
   // Calculate monthly costs
   const sortedMonths = Object.keys(monthlyReadings).sort();
   let prevMonthEndValue: number | null = null;
+  let prevMonthEndTimestamp: Date | null = null;
 
   const now = new Date();
   const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -435,7 +436,10 @@ app.get('/api/balance', (req, res) => {
       const daysInMonth = new Date(year, monthNum, 0).getDate();
       const firstReadingDate = new Date(monthReadings[0].timestamp);
       const lastReadingDate = new Date(monthReadings[monthReadings.length - 1].timestamp);
-      const daysCovered = (lastReadingDate.getTime() - (prevMonthEndValue ? new Date(year, monthNum - 1, 1).getTime() : firstReadingDate.getTime())) / (1000 * 60 * 60 * 24);
+
+      // Use the timestamp of the previous month's last reading if available
+      const startTimestamp = prevMonthEndTimestamp ?? firstReadingDate;
+      const daysCovered = (lastReadingDate.getTime() - startTimestamp.getTime()) / (1000 * 60 * 60 * 24);
 
       if (daysCovered > 0 && daysCovered < daysInMonth) {
         const dailyRate = consumption / daysCovered;
@@ -445,6 +449,7 @@ app.get('/api/balance', (req, res) => {
     }
 
     prevMonthEndValue = endValue;
+    prevMonthEndTimestamp = new Date(monthReadings[monthReadings.length - 1].timestamp);
 
     // Find tariff for this month (middle of month)
     const [year, monthNum] = month.split('-').map(Number);
