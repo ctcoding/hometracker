@@ -453,11 +453,13 @@ app.get('/api/balance', (req, res) => {
       const startTimestamp = prevMonthEndTimestamp ?? firstReadingDate;
       const daysCovered = (lastReadingDate.getTime() - startTimestamp.getTime()) / (1000 * 60 * 60 * 24);
 
+      // Always mark current month as projected for dashboard display
+      // Only extrapolate if we haven't covered the full month yet
       if (daysCovered > 0 && daysCovered < daysInMonth) {
         const dailyRate = consumption / daysCovered;
         consumption = dailyRate * daysInMonth;
-        isProjected = true;
       }
+      isProjected = true;
     }
 
     prevMonthEndValue = endValue;
